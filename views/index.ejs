@@ -23,17 +23,6 @@
           <div class="table-scroll">
               <table id="main-table" class="table table-hover">
                   <tbody id="table-body">
-                    <% for(var i = 0; i < items.length; i++){ %>
-                      
-                      <tr>
-                        <td><%= items[i].text  %></td>
-                        <td class="crud-buttons">
-                            <i data-id="<%= items[i]._id %>" class="fas fa-edit fa-lg" data-action="edit"></i>
-                            <i data-id="<%= items[i]._id %>" class="fas fa-trash fa-lg" data-action="delete"></i>
-                        </td>
-                      </tr>
-                    
-                    <% } %>
                   </tbody>
               </table>
           </div>

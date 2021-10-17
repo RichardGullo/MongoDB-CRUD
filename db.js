@@ -5,7 +5,8 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 mongodb.MongoClient.connect(process.env.CONNECTIONSTRING, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
-    module.exports = client.db();
+    let db = client.db();
+    module.exports = db;
 
     const app = require('./server');
 

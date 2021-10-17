@@ -9,6 +9,12 @@ router.get('/', (req,res)=>{
       res.render('index',{items:items});
     })
   })
+
+  router.get('/populate-item', function(req,res){
+    db.collection('items').find().toArray(function(err,items){
+      res.send(items);
+    })
+})
   
   router.post('/create-item', function(req,res){
       db.collection('items').insertOne({text:req.body.item},function(){

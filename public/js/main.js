@@ -7,11 +7,9 @@ let currentIndex = 0;
 let currentId = 0;
 let currrentRow = null;
 
-
-
 function populateArray(){
     
-    fetch('populate.php')
+    fetch('/populate-item')
     .then(function(res){
         return res.json();
     })
@@ -24,7 +22,7 @@ function populateArray(){
         {
             output += `
             <tr>
-                <td>${todo.todo}</td>
+                <td>${todo.text}</td>
                 <td class="crud-buttons">
                     <i class="fas fa-edit fa-lg" data-action="edit"></i>
                     <i class="fas fa-trash fa-lg" data-action="delete"></i>
@@ -138,4 +136,4 @@ addButton.addEventListener("click",(e)=>{
 
 document.addEventListener("click", handleClick)
 
-// populateArray();
+populateArray();
