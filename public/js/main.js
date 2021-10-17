@@ -24,8 +24,8 @@ function populateArray(){
             <tr>
                 <td>${todo.text}</td>
                 <td class="crud-buttons">
-                    <i class="fas fa-edit fa-lg" data-action="edit"></i>
-                    <i class="fas fa-trash fa-lg" data-action="delete"></i>
+                    <i data-id="${todo._id}"class="fas fa-edit fa-lg" data-action="edit"></i>
+                    <i data-id="${todo._id}" class="fas fa-trash fa-lg" data-action="delete"></i>
                 </td>
             </tr>`;
             
@@ -64,6 +64,8 @@ function editButton(index){
 
 function deleteEntry(e){
 
+    let id = e.target.getAttribute("data-id");
+    console.log(id);
     axios.post('/delete-item', {id: e.target.getAttribute("data-id") }).then(function () {
         e.target.parentElement.parentElement.remove();
     }).catch(function () {
