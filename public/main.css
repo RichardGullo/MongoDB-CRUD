@@ -1,0 +1,57 @@
+*{
+    margin:0;
+    padding:0;
+}
+
+html{
+    height:100%;
+}
+
+body{
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.main-container{
+    width:500px;
+    height:500px;
+    margin-left:50px;
+    border:1px solid black;
+    border-radius: 5px;
+    position: relative;
+}
+
+.crud-buttons{
+    text-align: end;
+}
+
+.add-item{
+    position:absolute;
+    bottom:5px;
+    right:5px;
+    font-size: 50px;
+}
+
+.table-scroll{
+    height:435px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: #e5f4fa;
+    
+}
+
+.table-scroll::-webkit-scrollbar{
+    display: none;
+}
+
+i{
+    color:dodgerblue;
+    cursor: pointer;
+}
