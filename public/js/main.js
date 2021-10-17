@@ -45,18 +45,20 @@ function handleClick(evt){
         }
         else if(action == "edit"){
             console.log("Edit was clicked");
-            let rowIndex = evt.target.closest("tr").rowIndex;
+            currentIndex = evt.target.closest("tr").rowIndex;
             currentRow = evt.target.closest("tr");
-            editButton(rowIndex);
+            currentId = evt.target.getAttribute("data-id");
+            editButton();
            
         }
 
     }
 }
 
-function editButton(index){
+function editButton(){
 
     let nameField = document.getElementById("modal-nameField");
+    nameField.value = todos[currentIndex].text;
     $('#myModal').modal('show');
 
 
@@ -78,28 +80,27 @@ function deleteEntry(e){
 
 confirmButton.addEventListener("click", (e)=>{
     e.preventDefault();
-    let formData = new FormData();
     let nameField = document.getElementById("modal-nameField");
-    formData.append('update-name', nameField.value);
-    formData.append('update-id', currentId);
 
-    fetch("update.php", {
-        method:"POST",
-        body:formData
-    }).then(function(res){
-        return res.text();
-    }).then(function(data){
-        console.log(data);
+    axios.post('/update-item', { text: nameField.value, id: currentId }).then(function () {
+       
         let tr = currentRow;
         tr.innerHTML = `<tr>
                             <td>${nameField.value}</td>
                             <td class="crud-buttons">
-                                <i class="fas fa-edit fa-lg" data-action="edit"></i>
-                                <i class="fas fa-trash fa-lg" data-action="delete"></i>
+                                <i data-id="${currentId}" class="fas fa-edit fa-lg" data-action="edit"></i>
+                                <i data-id="${currentId}" class="fas fa-trash fa-lg" data-action="delete"></i>
                             </td>
                         </tr>`;
+        
+        todos[currentIndex] = {_id: currentId, text: nameField.value};
         nameField.value = "";
-    });
+
+    }).catch(function () {
+        console.log("Please try again later.");
+    })
+
+
 })
 
 
@@ -107,22 +108,15 @@ confirmButton.addEventListener("click", (e)=>{
 addButton.addEventListener("click",(e)=>{
     
     e.preventDefault();
-    let formData = new FormData();
-    formData.append('test',addTextField.value);
-
-    fetch('insert.php',{
-        method:"POST",
-        body:formData
-    }).then(function(res){
-        return res.json();
-    }).then(function(data){
-        console.log(data);
-        todos.push({todo:data.todo, id:data.id});
+    
+    axios.post('/create-item', {text:addTextField.value})
+    .then(function(res){
+        todos.push({text:res.data.text, _id:res.data._id});
         let output = `
-                        <td>${data.todo}</td>
+                        <td>${res.data.text}</td>
                         <td class="crud-buttons">
-                            <i class="fas fa-edit fa-lg" data-action="edit"></i>
-                            <i class="fas fa-trash fa-lg" data-action="delete"></i>
+                            <i data-id="${res.data._id}" class="fas fa-edit fa-lg" data-action="edit"></i>
+                            <i data-id="${res.data._id}" class="fas fa-trash fa-lg" data-action="delete"></i>
                         </td>
                     `;
         let tr = document.createElement("tr");
@@ -131,7 +125,8 @@ addButton.addEventListener("click",(e)=>{
         let inputField = document.getElementById("add-inputField");
         inputField.value = "";
 
-    })
+    });
+
 })
 
 

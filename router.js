@@ -16,11 +16,12 @@ router.get('/', (req,res)=>{
     })
 })
   
-  router.post('/create-item', function(req,res){
-      db.collection('items').insertOne({text:req.body.item},function(){
-        res.redirect("/");
-      });
+router.post('/create-item', function (req, res) {
+  db.collection('items').insertOne({ text: req.body.text }, function (err, info) {
+      console.log(info.insertedId);
+      res.json({ text: req.body.text, _id: info.insertedId });
   })
+})
   
   router.post('/update-item', function(req, res) {
     console.log(req.body);
